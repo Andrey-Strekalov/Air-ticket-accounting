@@ -8,10 +8,70 @@
 #include <Windows.h> // для использования SetConsoleCP и 
 #include "TicketRequest.h";
 
-int createId() {
-	return time(nullptr);
+int createId();
+TicketRequest createTicketRequest(TicketRequest* ticket);
+void printAllTickets(const std::list<TicketRequest>& tickets);
+int menu();
+
+int main()
+{   // меняем кодировку консоли и устанавливаем локаль для возможности рускоязычного ввода и вывода
+	setlocale(LC_ALL, "ru");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	// двусвязный контейнер list tickets для хранения заявок 
+	std::list<TicketRequest> tickets{};
+	TicketRequest ticket;
+
+
+	/*createTicketRequest(&ticket);
+	tickets.push_back(ticket);
+	printTicketRequest(&ticket);*/
+	int point;
+	do
+	{
+		point = menu();
+		switch (point)
+		{
+		case 1:
+			createTicketRequest(&ticket);
+			tickets.push_back(ticket);
+			break;
+		case 2: printAllTickets(tickets);
+			break;
+		case 5: break;
+		default:
+			std::cout << "Неккоректный ввод! Попробуйте еще раз)";
+			break;
+		}
+	} while (point != 5);
+	return 0;
 }
 
+
+int createId() { return time(nullptr); }
+int menu() {
+	int point;
+	while (true) {
+		std::cout << "\n";
+		std::cout << "\n----------------- Главное меню -----------------\n" 
+			<< "\n" 
+			<< "1 - Заполнить заявку \t2 - Посмотреть заявки\n" 
+			/*<< "2 - Переместить\t\t4 - Определить отношение включения\n"*/
+			<< "\t\t5 - Выход\n" 
+			<< "\n" 
+			<< "________________________________________________" << std::endl
+			<< "Выберите пункт: ";
+
+
+		if (std::cin >> point && point >= 1 && point <= 5) {
+			return point;
+		}
+		std::cin.clear(); // Сброс флага ошибки
+		std::cin.ignore(10000, '\n'); // Очистка буфера
+		std::cout << "Ошибка! Введите число от 1 до 5!\n";
+	}
+}
 
 TicketRequest createTicketRequest(TicketRequest* ticket) {
 
@@ -23,6 +83,8 @@ TicketRequest createTicketRequest(TicketRequest* ticket) {
 	std::string status;
 	ticket->setId(id);
 
+	std::cin.ignore();
+
 	std::cout << "Введите имя пассажира ";
 	getline(std::cin, name);
 	ticket->setPassengerName(name);
@@ -30,52 +92,30 @@ TicketRequest createTicketRequest(TicketRequest* ticket) {
 	std::cout << "Введите дату вылета ";
 	std::cin >> date;
 	ticket->setDepartureDate(date);
+	//std::cin.ignore();
 
 	std::cout << "Введите номер рейса ";
 	std::cin >> fl_num;
 	ticket->setFlightNumber(fl_num);
+	//std::cin.ignore();
 
 	std::cout << "Введите пункт назначения ";
 	std::cin >> to;
 	ticket->setDestination(to);
+	std::cin.ignore();
 
-	ticket->setStatus("in processed");
+	ticket->setStatus("В обработке");
 
 	std::cout << std::endl;
-	std::cout << "============================================";
+	std::cout << "================================================" << std::endl;
+	std::cout << "***  Заявка " << id << " успешно создана  ***" << std::endl;
+	std::cout << "================================================";
 
 	return *ticket;
 };
 
-void printTicketRequest(TicketRequest* ticket) {
-	std::cout << "\n" << std::endl;
-	std::cout << "Заявка №" << ticket->getId() << std::endl;
-	std::cout << "Рейс №" << ticket->getFlightNumber() << std::endl;
-	std::cout << "Пассажир: " << ticket->getPassengerName() << std::endl;
-	std::cout << "Дата вылета: " << ticket->getDepartureDate() << std::endl;
-	std::cout << "Пункт назначения: " << ticket->getDestination() << std::endl;
-	std::cout << "Статус заявки: " << ticket->getStatus() << std::endl;
+void printAllTickets(const std::list<TicketRequest>& tickets) {
+	for (const auto& ticket : tickets) {  // Перебор по константной ссылке
+		ticket.printTicket();
+	}
 }
-
-int main()
-{
-	setlocale(LC_ALL, "ru");
-	// меняем кодировку консоли для возможности рускоязычного ввода
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
-
-
-	std::list<TicketRequest> tickets{};
-
-	TicketRequest* ticket = new TicketRequest;
-
-	createTicketRequest(ticket);
-	//tickets.push_back(ticket);
-
-	printTicketRequest(ticket);
-
-	delete ticket;
-	return 0;
-}
-
-

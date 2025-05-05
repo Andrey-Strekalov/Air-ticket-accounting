@@ -7,6 +7,7 @@ public:
 	TicketRequest();
 	~TicketRequest();
 
+	// Сеттеры класса
 	void setId(int id);
 	void setFlightNumber(std::string fl_num);
 	void setPassengerName(std::string name);
@@ -14,6 +15,7 @@ public:
 	void setDestination(std::string destination);
 	void setStatus(std::string status);
 
+	// Геттеры класса
 	int getId();
 	std::string getPassengerName();
 	std::string getFlightNumber();
@@ -21,6 +23,8 @@ public:
 	std::string getDestination();
 	std::string getStatus();
 
+	// Остальные методы
+	void printTicket() const;
 
 private:
 	int id;
