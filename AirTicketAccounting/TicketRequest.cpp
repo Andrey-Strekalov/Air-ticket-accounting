@@ -20,8 +20,8 @@ void TicketRequest::setDestination(std::string value) { destination = value; }
 void TicketRequest::setStatus(std::string value) { status = value; }
 
 // Геттеры класса
-int TicketRequest::getId() { return id; }
-std::string TicketRequest::getPassengerName() { return passengerName; }
+int TicketRequest::getId() const { return id; }
+std::string TicketRequest::getPassengerName() const { return passengerName; }
 std::string TicketRequest::getFlightNumber() { return flightNumber; }
 std::string TicketRequest::getDepartureDate() { return departurDate; }
 std::string TicketRequest::getDestination() { return  destination; }
@@ -29,7 +29,7 @@ std::string TicketRequest::getStatus() { return  status; }
 
 // Остальные методы
 
-void TicketRequest::printTicket() const{
+void TicketRequest::printTicket() const{ // печать объекта
 		std::cout << "\n" << std::endl;
 		std::cout << "Заявка №" << id << std::endl;
 		std::cout << "Рейс №" << flightNumber << std::endl;

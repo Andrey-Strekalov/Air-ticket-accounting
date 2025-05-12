@@ -16,15 +16,15 @@ public:
 	void setStatus(std::string status);
 
 	// Геттеры класса
-	int getId();
-	std::string getPassengerName();
+	int getId() const;
+	std::string getPassengerName() const;
 	std::string getFlightNumber();
 	std::string getDepartureDate();
 	std::string getDestination();
 	std::string getStatus();
 
 	// Остальные методы
-	void printTicket() const;
+	void printTicket() const; // печать объекта
 
 private:
 	int id;
