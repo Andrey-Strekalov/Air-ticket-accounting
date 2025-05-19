@@ -4,9 +4,9 @@
 
 
 //..................... подключение библиотек и заголовочных файлов ..................// 
-#include <unordered_set>
+#include <unordered_set> 
+#include <algorithm>
 #include <iostream>
-#include <limits>
 #include <string>
 #include <vector>
 #include <ctime>
@@ -23,6 +23,7 @@
 // функции меню
 int menu(); // главное меню программы
 int menuInRequestWork(int id); // меню работы с заявкой
+int menuInSearchBlock(); // меню поиска заявок
 
 // Функция получения для создания новых заявок
 int createId(); // получение индивидуального id
@@ -36,14 +37,18 @@ void printAllTickets(const std::list<TicketRequest>& tickets, bool shortprint);
 void workInRequest(std::list<TicketRequest>& tickets);
 
 // функции поиска и получения заявки
-std::vector <int> searchByName(const std::list<TicketRequest>& tickets);
+std::vector <int> searchBy(int value, const std::list<TicketRequest>& tickets);
 TicketRequest getTicketRequestById(const std::list<TicketRequest>& tickets, int id);
+
+// блок поиска(фильтров)
+void searchBlock(std::list<TicketRequest>& tickets);
 
 // Вывод списка заявок 
 void printBy(const std::vector<int>& ids, const std::list<TicketRequest>& tickets);
 // добавятся перегрузки этой фунцкии по параметрам, будет использовано для фильтров.
 
-
+// сортировка контейнера заявок по алфавиту
+void sortList(std::list<TicketRequest>& container);
 
 
 
@@ -59,6 +64,13 @@ int main()
 	std::list<TicketRequest> tickets{};
 	TicketRequest ticket;
 
+	try {
+		tickets = TicketRequest::loadFromFile("Requests.dat");
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+
 	int point; // переменная для выбора позиции меню
 	do // цикл работы в меню
 	{
@@ -68,22 +80,23 @@ int main()
 		case 1:
 			createTicketRequest(&ticket);
 			tickets.push_back(ticket);
+			sortList(tickets);
 			break;
 		case 2: printAllTickets(tickets, true);
 			break;
 
 		case 3: {
-			const std::vector <int> ids = searchByName(tickets);
-			printBy(ids, tickets);
+			searchBlock(tickets);
 			break;
 		}
 		case 4: {
 			workInRequest(tickets);
-
 			break;
 		}
 
-		case 5: break;
+		case 5:
+			TicketRequest::saveToFile(tickets, "Requests.dat");
+			break;
 		default:
 			std::cout << "Неккоректный ввод! Попробуйте еще раз)";
 			break;
@@ -107,13 +120,13 @@ int menu() { // функция главного меню программы
 		std::cout << "\n" << "\n----------------- Главное меню -----------------\n"
 			<< "\n"
 			<< " 1 - Заполнить заявку \t2 - Посмотреть заявки\n"
-			<< " 3 - Найти заявку\t4 - Работа с заявкой         \n"
+			<< " 3 - Поиск заявок\t4 - Работа с заявкой         \n"
 			<< "\t\t5 - Выход\n"
 			<< "\n"
 			<< "________________________________________________" << std::endl
 			<< "Выберите пункт: ";
 
-		// проверка на валдиность ввода 
+		// проверка на валидность ввода 
 		if (std::cin >> point && point >= 1 && point <= 5) {
 			return point;
 		}
@@ -134,24 +147,22 @@ TicketRequest createTicketRequest(TicketRequest* ticket) {
 	std::string status;
 	ticket->setId(id);
 
-	std::cin.ignore();
 
-	std::cout << "Введите имя пассажира ";
-	getline(std::cin, name);
+	std::cout << "Введите ФИО пассажира: ";
+	getline(std::cin >> std::ws, name);
 	ticket->setPassengerName(name);
 
-	std::cout << "Введите дату вылета ";
+	std::cout << "Введите дату вылета: ";
 	std::cin >> date;
 	ticket->setDepartureDate(date);
 
-	std::cout << "Введите номер рейса ";
+	std::cout << "Введите номер рейса: ";
 	std::cin >> fl_num;
 	ticket->setFlightNumber(fl_num);
 
-	std::cout << "Введите пункт назначения ";
-	std::cin >> to;
+	std::cout << "Введите пункт назначения: ";
+	getline(std::cin >> std::ws, to);
 	ticket->setDestination(to);
-	std::cin.ignore();
 
 	ticket->setStatus("В обработке");
 
@@ -186,23 +197,55 @@ void printAllTickets(const std::list<TicketRequest>& tickets, bool shortprint) {
 }
 
 // поиск заявки по имени пассажира
-std::vector<int> searchByName(const std::list<TicketRequest>& tickets) {
+std::vector<int> searchBy(int criteria, const std::list<TicketRequest>& tickets) {
 	std::vector<int> ids;
-
 	if (tickets.empty()) {
-		std::cout << "Поиск невозможен. Список заявок пуст.\n";
+		std::cout << "Список заявок пуст!\n";
 		return ids;
 	}
 
-	std::string srh_unit;
-	std::cout << "Введите значение для поиска: ";
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	std::getline(std::cin, srh_unit);
+	// Ввод значения для поиска ОДИН РАЗ
+	std::string srh_str;
+	int srh_int = 0;
 
+
+	switch (criteria) {
+	case 1: // По имени
+		std::cout << "Введите имя: ";
+		std::getline(std::cin >> std::ws, srh_str);
+		break;
+	case 2: // По номеру рейса
+		std::cout << "Введите номер рейса: ";
+		std::getline(std::cin >> std::ws, srh_str);
+		break;
+	case 3: // По ID
+		std::cout << "Введите ID: ";
+		std::cin >> srh_int;
+		std::cin.ignore(); // Очистка буфера
+		break;
+	case 4: // По пункту назначения
+		std::cout << "Введите пункт назначения: ";
+		std::getline(std::cin >> std::ws, srh_str);
+		break;
+	case 5: // По дате вылета
+		std::cout << "Введите дату вылета: ";
+		std::getline(std::cin >> std::ws, srh_str);
+		break;
+	default:
+		return ids;
+	}
+
+	// Поиск по всем заявкам
 	for (const auto& ticket : tickets) {
-		if (ticket.getPassengerName().find(srh_unit) != std::string::npos) {
-			ids.push_back(ticket.getId());
+		bool match = false;
+		switch (criteria) {
+		case 1: match = ticket.getPassengerName().find(srh_str) != std::string::npos; break;
+		case 2: match = ticket.getFlightNumber() == srh_str; break;
+		case 3: match = ticket.getId() == srh_int; break;
+		case 4: match = ticket.getDestination().find(srh_str) != std::string::npos; break;
+		case 5: match = ticket.getDepartureDate() == srh_str; break;
 		}
+		if (match) ids.push_back(ticket.getId());
 	}
 
 	return ids;
@@ -241,7 +284,7 @@ int menuInRequestWork(int id) {
 		std::cout << "\n----------------- Заявка #" << id << "-----------------\n"
 			<< "\n"
 			<< "1 - Изменить статус заявки \t2 - Удалить заявку\n"
-			<< "\t\t3 - Выход\n"
+			<< "\t\t3 - Выйти в главное меню\n"
 			<< "\n"
 			<< "_____________________________________________________" << std::endl
 			<< "Выберите пункт: ";
@@ -274,7 +317,7 @@ void workInRequest(std::list<TicketRequest>& tickets) { // Принимаем с
 	it->printTicket();
 
 	std::string term;
-	std::cout << "\n" << "Это ваша заявка? (y/n)";
+	std::cout << "\n" << "Это ваша заявка (y/n)? ";
 	std::cin >> term;
 
 	if (term == "y") {
@@ -285,8 +328,7 @@ void workInRequest(std::list<TicketRequest>& tickets) { // Принимаем с
 			case 1: {
 				std::string new_status;
 				std::cout << "Введите новый статус: ";
-				std::cin.ignore(); // Очистка буфера
-				std::getline(std::cin, new_status);
+				std::getline(std::cin >> std::ws, new_status);
 
 				// Модифицируем исходный объект через итератор
 				it->setStatus(new_status);
@@ -296,12 +338,13 @@ void workInRequest(std::list<TicketRequest>& tickets) { // Принимаем с
 			case 2: {
 				// Удаляем заявку из списка через итератор
 				std::string corr;
-				std::cout << "Вы уверены, что хотите удалить заявку?(y/n)";
+				std::cout << "Вы уверены, что хотите удалить заявку (y/n)?";
 				std::cin >> corr;
 				if (corr == "y")
 				{
 					tickets.erase(it);
 					std::cout << "\n" << "*Заявка удалена!*\n";
+					sortList(tickets);
 					return; // Выходим из цикла, так как итератор невалиден после удаления
 				}
 				else
@@ -319,4 +362,49 @@ void workInRequest(std::list<TicketRequest>& tickets) { // Принимаем с
 			}
 		} while (point != 3);
 	}
+}
+
+int menuInSearchBlock() {
+	int point;
+	while (true) {
+		std::cout << "\n----------------- Поиск заявок -----------------\n"
+			<< " 1 - По имени\n"
+			<< " 2 - По номеру рейса\n"
+			<< " 3 - По ID\n"
+			<< " 4 - По пункту назначения\n"
+			<< " 5 - По дате вылета\n"
+			<< " 6 - Выйти в главное меню\n"
+			<< "Выберите пункт: ";
+
+		if (std::cin >> point && point >= 1 && point <= 6) {
+			return point;
+		}
+		std::cin.clear();
+		std::cin.ignore(10000, '\n');
+		std::cout << "Ошибка! Введите число от 1 до 6!\n";
+	}
+}
+
+void searchBlock(std::list<TicketRequest>& tickets) {
+	int choice;
+	do {
+		choice = menuInSearchBlock();
+		if (choice == 6) break; // Выход
+
+		std::vector<int> ids = searchBy(choice, tickets);
+		if (!ids.empty()) {
+			std::cout << "\nНайдены заявки:";
+			printBy(ids, tickets);
+		}
+		else {
+			std::cout << "Совпадений не найдено.\n";
+		}
+	} while (true);
+}
+
+// сортировка контейнера заявок по алфавиту
+void sortList(std::list<TicketRequest>& container) {
+	container.sort([](const TicketRequest& a, const TicketRequest& b) {
+		return a.getPassengerName() < b.getPassengerName();
+		});
 }
