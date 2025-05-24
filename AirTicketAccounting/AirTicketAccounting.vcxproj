@@ -127,14 +127,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="FlightInfo.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Print.cpp" />
     <ClCompile Include="TicketRequest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Passenger.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="FlightInfo.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Print.h" />
     <ClInclude Include="TicketRequest.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Flights.dat" />
     <None Include="Requests.dat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
