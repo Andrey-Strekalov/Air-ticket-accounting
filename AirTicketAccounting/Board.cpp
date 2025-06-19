@@ -18,7 +18,7 @@
 Board::Board() {}
 Board::~Board() {}
 
-// Сеттеры
+// реализация сеттеров
 void Board::setAircraftNumber(const std::string& value) { aircraftNumber = value; }
 void Board::setAvailableSeats(int value) { availableSeats = value; }
 void Board::setCapacity(int value) {
@@ -28,27 +28,27 @@ void Board::setCapacity(int value) {
 }
 
 
-// Геттеры
+// реализация геттеров
+const std::list<TicketRequest>& Board::getPassengers() const { return passengers; }
 std::string Board::getAircraftNumber() const { return aircraftNumber; }
 int Board::getAvailableSeats() const { return availableSeats; }
 int Board::getCapacity() const { return capacity; }
 
-const std::list<TicketRequest>& Board::getPassengers() const { return passengers; }
 
 
-// Методы
-void Board::addPassenger(const TicketRequest& ticket) {
-	if (ticket.getFlightNumber() != flightNumber)
+// Реализация методов класса
+void Board::addPassenger(const TicketRequest& ticket) { // добавление пассажира в список
+	if (ticket.getFlightNumber() != flightNumber) {
 		throw std::invalid_argument("Номер рейса пассажира не совпадает с бортом");
-
-	if (availableSeats <= 0)
+	}
+	if (availableSeats <= 0) {
 		throw std::runtime_error("Нет свободных мест");
-
+	}
 	passengers.push_back(ticket);
 	calculateAvailableSeats();
 }
 
-void Board::calculateAvailableSeats() {
+void Board::calculateAvailableSeats() { // вычисление количества свободных мест
 	availableSeats = capacity - static_cast<int>(passengers.size());
 	if (availableSeats < 0) {
 		availableSeats = 0;
@@ -58,17 +58,19 @@ void Board::calculateAvailableSeats() {
 
 
 void Board::printInfo() const {
-	std::cout << std::left;
-	std::cout << std::setw(3) << "#"
-		<< std::setw(20) << aircraftNumber
-		<< std::setw(12) << flightNumber
-		<< std::setw(15) << departureDate
-		<< std::setw(20) << destination
-		<< std::setw(12) << capacity
-		<< std::setw(15) << availableSeats << std::endl;
+	 // вывод информации о рейсе
+		std::cout << std::left;
+		std::cout << std::setw(3) << "#"
+			<< std::setw(20) << aircraftNumber
+			<< std::setw(12) << flightNumber
+			<< std::setw(15) << departureDate
+			<< std::setw(20) << destination
+			<< std::setw(12) << capacity
+			<< std::setw(15) << availableSeats << std::endl;
+	
 }
 
-void Board::printPassengersList() const {
+void Board::printPassengersList() const { // вывод списка пассажиров
 	std::cout << std::endl << "С п и с о к    п а с с а ж и р о в: " << std::endl;
 	std::cout << std::left;
 	std::cout << std::setw(3) << "#"
@@ -88,10 +90,10 @@ void Board::printPassengersList() const {
 }
 
 void Board::saveToFile(const std::list<Board>& flights,
-	const std::string& filename) {
+	const std::string& filename) { // сохранение данных в файл
 	std::ofstream file(filename);
 	if (!file.is_open()) {
-		throw std::runtime_error("Cannot open file for writing");
+		throw std::runtime_error("Невозможно открыть файл для записи!");
 	}
 
 	for (const auto& flight : flights) {
@@ -105,12 +107,12 @@ void Board::saveToFile(const std::list<Board>& flights,
 
 }
 
-std::list<Board> Board::loadFromFile(const std::string& filename) {
+std::list<Board> Board::loadFromFile(const std::string& filename) { // загрузка данных
 	std::list<Board> flights;
 	std::ifstream file(filename);
 
 	if (!file.is_open()) {
-		throw std::runtime_error("Cannot open file for reading");
+		throw std::runtime_error("Невозможно открыть файл для чтения!");
 	}
 
 	std::string line;
@@ -146,25 +148,8 @@ std::list<Board> Board::loadFromFile(const std::string& filename) {
 	return flights;
 }
 
-//void changeFlightDate(std::list<Board>& flights) {
-//	std::string num, newDate;
-//	std::cout << "Введите номер рейса: ";
-//	std::cin >> num;
-//
-//	auto it = std::find_if(flights.begin(), flights.end(),
-//		[&](const Board& b) { return b.getFlightNumber() == num; });
-//
-//	if (it != flights.end()) {
-//		std::cout << "Новая дата: ";
-//		std::cin >> newDate;
-//		it->setDepartureDate(newDate);
-//		std::cout << "Дата изменена!\n";
-//	}
-//	else {
-//		std::cout << "Рейс не найден!\n";
-//	}
-//}
 
+// составление списка пассажиров (работает в паре с методом addPassenger())
 void Board::assignPassengers(std::list<Board>& flights, std::list<TicketRequest>& tickets) {
 
 	for (auto& flight : flights) {
@@ -190,7 +175,7 @@ void Board::flightChekIn(Board* flight) {
 	int capacity;
 	std::string str_input;
 
-	std::cout << "Введите номер авиасудна: ";
+	std::cout << "Введите номер авиасудна (NN-000): ";
 	getline(std::cin >> std::ws, str_input);
 	flight->setAircraftNumber(str_input);
 
@@ -207,16 +192,16 @@ void Board::flightChekIn(Board* flight) {
 	flight->setCapacity(capacity);
 	flight->calculateAvailableSeats();
 
-	std::cout << "Дата вылета: ";
+	std::cout << "Дата вылета (дд.мм.гггг): ";
 	std::cin >> str_input;
 	flight->setDepartureDate(str_input);
 
 	std::cout << std::endl;
-	std::cout << "================================================" << std::endl;
+	std::cout << "=====================================================" << std::endl;
 	std::cout << "***  Судно " << flight->getAircraftNumber() << " зарегистрировано на рейс "
 		<< flight->getFlightNumber() << "  ***\n" << "Дата вылета "
 		<< flight->getDepartureDate() << std::endl;
-	std::cout << "================================================";
+	std::cout << "=====================================================";
 
 
 }

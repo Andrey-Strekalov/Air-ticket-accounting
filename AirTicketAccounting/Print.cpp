@@ -2,18 +2,17 @@
 ////////////      Print.cpp     /////////////
 /////////////////////////////////////////////
 
-
-#include <iostream>
-#include <limits>
-#include <iomanip>
-#include <unordered_set> 
-#include <vector>
 #include <list>
-
+#include <limits>
+#include <vector>
+#include <iomanip>
+#include <iostream>
+#include <unordered_set> 
 
 #include "Print.h"
-#include "TicketRequest.h"
 #include "Board.h"
+#include "TicketRequest.h"
+
 
 Print::Print()
 {
@@ -36,10 +35,11 @@ void Print::printAllTickets(const std::list<TicketRequest>& tickets) {
 		<< std::setw(15) << "—татус" << std::endl;
 	std::cout << std::string(108, '-') << std::endl;
 	for (const auto& ticket : tickets) {  // ѕеребор по константной ссылке
-		ticket.printTicket();
+		ticket.printInfo();
 	}
 }
 
+// печать списка всех рейсов 
 void Print::printAllFlights(const std::list<Board>& flights) {
 	std::cout << std::left;
 	std::cout << std::setw(3) << "#"
@@ -86,11 +86,12 @@ void Print::printBy(const std::vector<int>& ids, const std::list<TicketRequest>&
 	std::unordered_set<int> id_set(ids.begin(), ids.end());
 	for (const auto& ticket : tickets) {
 		if (id_set.count(ticket.getId())) {
-			ticket.printTicket();
+			ticket.printInfo();
 		}
 	}
 }
 
+// печать информации определенного рейса
 void Print::printFlightInfo(const std::list<Board>& flights) {
 
 	std::string selectedFlight;

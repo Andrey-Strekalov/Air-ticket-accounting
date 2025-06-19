@@ -3,11 +3,13 @@
 /////////////////////////////////////////////
 
 
-#include <iostream>
 #include <limits>
+#include <iostream>
+
 #include "Menu.h"
 
-int Menu::mainMenu() { // функция главного меню программы
+// функция главного меню программы
+int Menu::mainMenu() { 
 	int point;
 	while (true) {
 		std::cout << "\n"
@@ -27,7 +29,9 @@ int Menu::mainMenu() { // функция главного меню программы
 	}
 }
 
-int Menu::ticketMenu() { // меню операций с заявками
+
+// меню операций с заявками
+int Menu::ticketMenu() { 
 	int point;
 	while (true) {
 		std::cout << "\n"
@@ -50,7 +54,7 @@ int Menu::ticketMenu() { // меню операций с заявками
 	}
 }
 
-
+// меню операций с рейсами
 int Menu::flightMenu() {
 	int point;
 	while (true) {
@@ -95,7 +99,7 @@ int Menu::menuInRequestWork(int id) {
 	}
 }
 
-
+// меню поиска заявок
 int Menu::menuInSearchBlock() {
 	int point;
 	while (true) {

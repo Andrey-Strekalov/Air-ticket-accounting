@@ -4,20 +4,17 @@
 
 
 //..................... подключение библиотек и заголовочных файлов ..................// 
-#include <unordered_set> 
-#include <algorithm>
+
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <vector>
-#include <ctime>
 #include <list> 
 
 // заголовочные файлы
 #include "TicketRequest.h"; // с классом заявки на билет
 #include "FlightInfo.h" // общий класс 
-#include "Board.h" // класс борта 
-#include "Print.h"// класс вывода информации об объектах 
+#include "Board.h"  // класс борта 
+#include "Print.h" // класс вывода информации об объектах 
 #include "Menu.h" // класс с меню
 
 
@@ -89,7 +86,7 @@ int main()
 			flightOperations(tickets, flights);
 			break;
 		}
-		case 3:
+		case 3: // выход
 			break;
 		default:
 			std::cout << "Неккоректный ввод! Попробуйте еще раз)";
@@ -109,6 +106,7 @@ int main()
 
 
 // поиск заявки по имени пассажира, возвращает вектор id найденных по запросу пользователя заявок
+// критерий поиска передается в параметре criteria, по значению которой выбирается определенный case
 std::vector<int> searchRequestBy(int criteria, const std::list<TicketRequest>& tickets) {
 	std::vector<int> ids;
 	if (tickets.empty()) {
@@ -116,22 +114,22 @@ std::vector<int> searchRequestBy(int criteria, const std::list<TicketRequest>& t
 		return ids;
 	}
 
-	// Ввод значения для поиска 
+	// Строка значения для поиска 
 	std::string search_string;
 	int search_unit = 0;
 
 
 	switch (criteria) {
 	case 1: // По имени
-		std::cout << "Введите имя: ";
+		std::cout << "Введите ФИО пассажира: ";
 		std::getline(std::cin >> std::ws, search_string);
 		break;
 	case 2: // По номеру рейса
-		std::cout << "Введите номер рейса: ";
+		std::cout << "Введите номер рейса (РР-111): ";
 		std::getline(std::cin >> std::ws, search_string);
 		break;
 	case 3: // По ID
-		std::cout << "Введите ID: ";
+		std::cout << "Введите ID (000000000): ";
 		std::cin >> search_unit;
 		std::cin.ignore(); // Очистка буфера
 		break;
@@ -140,7 +138,7 @@ std::vector<int> searchRequestBy(int criteria, const std::list<TicketRequest>& t
 		std::getline(std::cin >> std::ws, search_string);
 		break;
 	case 5: // По дате вылета
-		std::cout << "Введите дату вылета: ";
+		std::cout << "Введите дату вылета (дд.мм.гггг): ";
 		std::getline(std::cin >> std::ws, search_string);
 		break;
 	default:
@@ -171,11 +169,11 @@ void searchRequestsBlock(std::list<TicketRequest>& tickets) {
 		choice = Menu::menuInSearchBlock();
 		if (choice == 6) break; // Выход
 
-		std::vector<int> ids = searchRequestBy(choice, tickets);
-		if (!ids.empty()) {
+		std::vector<int> ids = searchRequestBy(choice, tickets);// ищем заявки
+		if (!ids.empty()) { // если возвращается непустой вектор
 			std::cout << "\nНайдены заявки:" << std::endl;
 			std::cout << std::left;
-			std::cout << std::setw(3) << "#"
+			std::cout << std::setw(3) << "#" // печатаем список
 				<< std::setw(12) << "ID"
 				<< std::setw(35) << "Пассажир"
 				<< std::setw(12) << "Рейс"
@@ -196,16 +194,17 @@ void searchRequestsBlock(std::list<TicketRequest>& tickets) {
 // функция операций с заявками на билеты
 void ticketOperations(std::list<TicketRequest>& tickets, std::list<Board>& flights) {
 
-	Board flight;
-	TicketRequest ticket;
+	Board flight; // создаем объект класса Board
+	TicketRequest ticket; // создаем объект класса TicketRequest
 
 	int point; // переменная для выбора позиции меню
 	do // цикл работы в меню
 	{
 		point = Menu::ticketMenu();
-		switch (point)
+
+		switch (point) // переключатель основного меню операций с заявками
 		{
-		case 1:
+		case 1: // создать заявку
 			TicketRequest::createTicketRequest(&ticket, flights);
 			if (ticket.getId() != 0)
 			{
@@ -215,20 +214,21 @@ void ticketOperations(std::list<TicketRequest>& tickets, std::list<Board>& fligh
 			TicketRequest::saveToFile(tickets, "Requests.dat");
 			Board::assignPassengers(flights, tickets);
 			break;
-		case 2: Print::printAllTickets(tickets);
+		case 2: // просмотр всех заявок
+			Print::printAllTickets(tickets); 
 			break;
 
-		case 3: {
+		case 3: { // поиск заявок
 			searchRequestsBlock(tickets);
 			break;
 		}
-		case 4: {
+		case 4: { // работа с заявкой (удаление и смена статуса) 
 			TicketRequest::workInRequest(tickets);
 			TicketRequest::saveToFile(tickets, "Requests.dat");
 			Board::saveToFile(flights, "Flights.dat");
 			break;
 		}
-		case 5:
+		case 5: //  выход, пересчет свободных мест и обновление списка пассажиров
 			tickets = TicketRequest::loadFromFile("Requests.dat");
 			flights = Board::loadFromFile("Flights.dat");
 			Board::assignPassengers(flights, tickets);
@@ -244,29 +244,29 @@ void ticketOperations(std::list<TicketRequest>& tickets, std::list<Board>& fligh
 // функция операций с рейсами
 void flightOperations(std::list<TicketRequest>& tickets, std::list<Board>& flights) {
 
-	Board flight;
-	TicketRequest ticket;
+	Board flight; // создаем объект класса Board
+	TicketRequest ticket; // создаем объект класса TicketRequest
 
 	int point; // переменная для выбора позиции меню
 	do // цикл работы в меню
 	{
-		point = Menu::flightMenu();
-		switch (point)
+		point = Menu::flightMenu(); 
+		switch (point) // переключатель основного меню операций с заявками
 		{
-		case 1: {
+		case 1: { // регистрация рейса
 			Board::flightChekIn(&flight);
 			flights.push_back(flight);
 			Board::saveToFile(flights, "Flights.dat");
 			break;
 		}
-		case 2: {
+		case 2: { // печать всех рейсов
 			Print::printAllFlights(flights);
 			break;
 		}
 
-		case 3: Print::printFlightInfo(flights);
-		case 4: {
-			Board::saveToFile(flights, "Flights.dat");
+		case 3: Print::printFlightInfo(flights); // вывод информации о рейсе
+		case 4: { // выход и сохранение в файл
+			Board::saveToFile(flights, "Flights.dat"); 
 		}
 			  break;
 		default:

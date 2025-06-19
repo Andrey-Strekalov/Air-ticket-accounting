@@ -2,7 +2,7 @@
 //////////      TicketRequest.cpp    ////////
 /////////////////////////////////////////////
 
-#include<list>
+#include <list>
 #include <ctime>
 #include <string>
 #include <iomanip>  
@@ -19,19 +19,19 @@
 TicketRequest::TicketRequest() { id = 0; }
 TicketRequest::~TicketRequest() {}
 
-// Сеттеры класса
+// реализаия сеттеров
 void TicketRequest::setId(int value) { id = value; }
 void TicketRequest::setStatus(std::string value) { status = value; }
 void TicketRequest::setPassengerName(std::string name) { passengerName = name; }
 
-// Геттеры класса
+// реализация геттеров 
 int TicketRequest::getId() const { return id; }
 std::string TicketRequest::getStatus()const { return  status; }
 std::string TicketRequest::getPassengerName() const { return passengerName; }
 
 
-// Остальные методы
-void TicketRequest::printTicket() const {
+// Реализация методов класса
+void TicketRequest::printInfo() const {
 
 	std::cout << std::left;
 	std::cout << std::setw(3) << "#"
@@ -44,10 +44,10 @@ void TicketRequest::printTicket() const {
 }
 
 void TicketRequest::saveToFile(const std::list<TicketRequest>& tickets,
-	const std::string& filename) {
+	const std::string& filename) { // сохранение в файл
 	std::ofstream file(filename);
 	if (!file.is_open()) {
-		throw std::runtime_error("Cannot open file for writing");
+		throw std::runtime_error("Невозможно открыть файл для записи!");
 	}
 
 	for (const auto& ticket : tickets) {
@@ -60,12 +60,12 @@ void TicketRequest::saveToFile(const std::list<TicketRequest>& tickets,
 	}
 }
 
-std::list<TicketRequest> TicketRequest::loadFromFile(const std::string& filename) {
+std::list<TicketRequest> TicketRequest::loadFromFile(const std::string& filename) { // загрузка даных из файла
 	std::list<TicketRequest> tickets;
 	std::ifstream file(filename);
 
 	if (!file.is_open()) {
-		throw std::runtime_error("Cannot open file for reading");
+		throw std::runtime_error("Невозможно открыть файл для чтения!");
 	}
 
 	std::string line;
@@ -100,7 +100,7 @@ std::list<TicketRequest> TicketRequest::loadFromFile(const std::string& filename
 	return tickets;
 }
 
-void TicketRequest::workInRequest(std::list<TicketRequest>& tickets) {
+void TicketRequest::workInRequest(std::list<TicketRequest>& tickets) { // работа с заявкой
 	int id;
 	std::cout << "Введите id заявки: ";
 	std::cin >> id;
@@ -114,7 +114,7 @@ void TicketRequest::workInRequest(std::list<TicketRequest>& tickets) {
 	}
 
 	// Работаем с исходным объектом через итератор (ссылку)
-	it->printTicket();
+	it->printInfo();
 
 	std::string term;
 	std::cout << "\n" << "Это ваша заявка (y/n)? ";
@@ -183,7 +183,7 @@ void TicketRequest::sortList(std::list<TicketRequest>& container) {
 		});
 }
 
-
+// создание заявки
 void TicketRequest::createTicketRequest(TicketRequest* ticket, std::list<Board>& flights) {
 
 	// Выбор рейса из списка
@@ -202,7 +202,7 @@ void TicketRequest::createTicketRequest(TicketRequest* ticket, std::list<Board>&
 		std::string selectedDate;
 		std::cout << "Введите номер рейса: ";
 		std::cin >> selectedFlight;
-		std::cout << "Введите дату: ";
+		std::cout << "Введите дату(дд.мм.гггг): ";
 		std::cin >> selectedDate;
 
 		try {

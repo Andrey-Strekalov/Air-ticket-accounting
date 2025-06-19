@@ -10,7 +10,7 @@
 
 class TicketRequest;
 
-
+// класс воздушного судна
 
 class Board : public FlightInfo {
 public:
@@ -30,23 +30,20 @@ public:
 	const std::list<TicketRequest>& getPassengers() const;
 
 	// ћетоды
-	void printInfo() const;
-	void calculateAvailableSeats();
-	void printPassengersList() const;
-	void addPassenger(const TicketRequest& ticket);
+	void printInfo() const override; // вывод информации о рейсе
+	void printPassengersList() const; // вывод списка пассажиров
+	void calculateAvailableSeats(); // вычисление количества свободных мест
+	void addPassenger(const TicketRequest& ticket); // добавление пассажира в список
 
 	static std::list<Board> loadFromFile(const std::string& filename); // чтение объекта из файла
 	static void saveToFile(const std::list<Board>& flights, const std::string& filename); // сохранение объекта в файл
-	static void assignPassengers(std::list<Board>& flights, std::list<TicketRequest>& tickets);
-	//static void changeFlightDate(std::list<Board>& flights);
-
-
-	// регистраци€ авиасудна на рейс
-	static void flightChekIn(Board* flights);
+	// составление списка пассажиров (работает в паре с методом addPassenger())
+	static void assignPassengers(std::list<Board>& flights, std::list<TicketRequest>& tickets); 
+	static void flightChekIn(Board* flights); // регистраци€ авиасудна на рейс
 
 private:
-	int capacity;
-	int availableSeats;
-	std::string aircraftNumber;
-	std::list<TicketRequest> passengers;
+	int capacity = 0; // вместимость
+	int availableSeats = 0; // свободные места
+	std::string aircraftNumber; // регистрационный номер воздушного судна
+	std::list<TicketRequest> passengers; // список пассажиров
 };

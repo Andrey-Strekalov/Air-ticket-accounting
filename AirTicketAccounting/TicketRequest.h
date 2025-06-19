@@ -10,6 +10,8 @@
 
 class Board;
 
+// класс заявки на билет
+
 class TicketRequest : public FlightInfo
 {
 public:
@@ -28,7 +30,7 @@ public:
 	std::string getPassengerName() const;
 
 	// Остальные методы
-	void printTicket() const; // печать объекта
+	void printInfo() const override; // печать объекта
 	static std::list<TicketRequest> loadFromFile(const std::string& filename); // чтение объекта из файла
 	static void saveToFile(const std::list<TicketRequest>& tickets, const std::string& filename); // сохранение объекта в файл
 
