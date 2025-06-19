@@ -1,4 +1,4 @@
-/////////////////////////////////////////////
+п»ї/////////////////////////////////////////////
 ////////////      Board.h    ////////////////
 /////////////////////////////////////////////
 
@@ -10,40 +10,40 @@
 
 class TicketRequest;
 
-// класс воздушного судна
+// РєР»Р°СЃСЃ РІРѕР·РґСѓС€РЅРѕРіРѕ СЃСѓРґРЅР°
 
 class Board : public FlightInfo {
 public:
 	Board();
 	~Board();
 
-	// Сеттеры
+	// РЎРµС‚С‚РµСЂС‹
 	
 	void setCapacity(int value);
 	void setAvailableSeats(int value);
 	void setAircraftNumber(const std::string& value);
 
-	// Геттеры
+	// Р“РµС‚С‚РµСЂС‹
 	int getCapacity() const;
 	int getAvailableSeats() const;
 	std::string getAircraftNumber() const;
 	const std::list<TicketRequest>& getPassengers() const;
 
-	// Методы
-	void printInfo() const override; // вывод информации о рейсе
-	void printPassengersList() const; // вывод списка пассажиров
-	void calculateAvailableSeats(); // вычисление количества свободных мест
-	void addPassenger(const TicketRequest& ticket); // добавление пассажира в список
+	// РњРµС‚РѕРґС‹
+	void printInfo() const override; // РІС‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЂРµР№СЃРµ
+	void printPassengersList() const; // РІС‹РІРѕРґ СЃРїРёСЃРєР° РїР°СЃСЃР°Р¶РёСЂРѕРІ
+	void calculateAvailableSeats(); // РІС‹С‡РёСЃР»РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° СЃРІРѕР±РѕРґРЅС‹С… РјРµСЃС‚
+	void addPassenger(const TicketRequest& ticket); // РґРѕР±Р°РІР»РµРЅРёРµ РїР°СЃСЃР°Р¶РёСЂР° РІ СЃРїРёСЃРѕРє
 
-	static std::list<Board> loadFromFile(const std::string& filename); // чтение объекта из файла
-	static void saveToFile(const std::list<Board>& flights, const std::string& filename); // сохранение объекта в файл
-	// составление списка пассажиров (работает в паре с методом addPassenger())
+	static std::list<Board> loadFromFile(const std::string& filename); // С‡С‚РµРЅРёРµ РѕР±СЉРµРєС‚Р° РёР· С„Р°Р№Р»Р°
+	static void saveToFile(const std::list<Board>& flights, const std::string& filename); // СЃРѕС…СЂР°РЅРµРЅРёРµ РѕР±СЉРµРєС‚Р° РІ С„Р°Р№Р»
+	// СЃРѕСЃС‚Р°РІР»РµРЅРёРµ СЃРїРёСЃРєР° РїР°СЃСЃР°Р¶РёСЂРѕРІ (СЂР°Р±РѕС‚Р°РµС‚ РІ РїР°СЂРµ СЃ РјРµС‚РѕРґРѕРј addPassenger())
 	static void assignPassengers(std::list<Board>& flights, std::list<TicketRequest>& tickets); 
-	static void flightChekIn(Board* flights); // регистрация авиасудна на рейс
+	static void flightChekIn(Board* flights); // СЂРµРіРёСЃС‚СЂР°С†РёСЏ Р°РІРёР°СЃСѓРґРЅР° РЅР° СЂРµР№СЃ
 
 private:
-	int capacity = 0; // вместимость
-	int availableSeats = 0; // свободные места
-	std::string aircraftNumber; // регистрационный номер воздушного судна
-	std::list<TicketRequest> passengers; // список пассажиров
+	int capacity = 0; // РІРјРµСЃС‚РёРјРѕСЃС‚СЊ
+	int availableSeats = 0; // СЃРІРѕР±РѕРґРЅС‹Рµ РјРµСЃС‚Р°
+	std::string aircraftNumber; // СЂРµРіРёСЃС‚СЂР°С†РёРѕРЅРЅС‹Р№ РЅРѕРјРµСЂ РІРѕР·РґСѓС€РЅРѕРіРѕ СЃСѓРґРЅР°
+	std::list<TicketRequest> passengers; // СЃРїРёСЃРѕРє РїР°СЃСЃР°Р¶РёСЂРѕРІ
 };

@@ -1,3 +1,10 @@
-﻿  Main.cpp
-C:\Users\andre\source\repos\Andrey-Strekalov\Air-ticket-accounting\AirTicketAccounting\Main.cpp(14,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-  AirTicketAccounting.vcxproj -> C:\Users\andre\source\repos\Andrey-Strekalov\Air-ticket-accounting\AirTicketAccounting\x64\Debug\AirTicketAccounting.exe
+﻿  Board.cpp
+  FlightInfo.cpp
+  Main.cpp
+C:\Users\andre\source\repos\Air-ticket-accounting\AirTicketAccounting\Main.cpp(14,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  Menu.cpp
+  Print.cpp
+  TicketRequest.cpp
+C:\Users\andre\source\repos\Air-ticket-accounting\AirTicketAccounting\TicketRequest.cpp(228,11): warning C4244: инициализация: преобразование "time_t" в "int", возможна потеря данных
+  Создание кода...
+  AirTicketAccounting.vcxproj -> C:\Users\andre\Source\Repos\Air-ticket-accounting\AirTicketAccounting\x64\Debug\AirTicketAccounting.exe

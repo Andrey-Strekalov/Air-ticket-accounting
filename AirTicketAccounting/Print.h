@@ -1,4 +1,4 @@
-/////////////////////////////////////////////
+п»ї/////////////////////////////////////////////
 /////////////     Print.h    ////////////////
 /////////////////////////////////////////////
 
@@ -9,7 +9,7 @@
 #include "Board.h"
 #include "TicketRequest.h"
 
-// класс печати информации, экземпляр не создается, все методы статические 
+// РєР»Р°СЃСЃ РїРµС‡Р°С‚Рё РёРЅС„РѕСЂРјР°С†РёРё, СЌРєР·РµРјРїР»СЏСЂ РЅРµ СЃРѕР·РґР°РµС‚СЃСЏ, РІСЃРµ РјРµС‚РѕРґС‹ СЃС‚Р°С‚РёС‡РµСЃРєРёРµ 
 
 class Print
 {
@@ -17,15 +17,15 @@ public:
 	Print();
 	~Print();
 
-	// фунцкии полной и сокращенной информации по заявкам с перегрузкой по параметрам
-	static void printAllTickets(const std::list<TicketRequest>& tickets); // печать списка заявок с полной информацией
-	static void printAllTickets(const std::list<TicketRequest>& tickets, bool shortprint); // печать списка заявок с краткой информацией
+	// С„СѓРЅС†РєРёРё РїРѕР»РЅРѕР№ Рё СЃРѕРєСЂР°С‰РµРЅРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РїРѕ Р·Р°СЏРІРєР°Рј СЃ РїРµСЂРµРіСЂСѓР·РєРѕР№ РїРѕ РїР°СЂР°РјРµС‚СЂР°Рј
+	static void printAllTickets(const std::list<TicketRequest>& tickets); // РїРµС‡Р°С‚СЊ СЃРїРёСЃРєР° Р·Р°СЏРІРѕРє СЃ РїРѕР»РЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРµР№
+	static void printAllTickets(const std::list<TicketRequest>& tickets, bool shortprint); // РїРµС‡Р°С‚СЊ СЃРїРёСЃРєР° Р·Р°СЏРІРѕРє СЃ РєСЂР°С‚РєРѕР№ РёРЅС„РѕСЂРјР°С†РёРµР№
 
-	// Вывод информации о рейсах
-	static void printFlightInfo(const std::list<Board>& flights); // печать информации определенного рейса
-	static void printAllFlights(const std::list<Board>& flights); // печать списка всех рейсов 
+	// Р’С‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЂРµР№СЃР°С…
+	static void printFlightInfo(const std::list<Board>& flights); // РїРµС‡Р°С‚СЊ РёРЅС„РѕСЂРјР°С†РёРё РѕРїСЂРµРґРµР»РµРЅРЅРѕРіРѕ СЂРµР№СЃР°
+	static void printAllFlights(const std::list<Board>& flights); // РїРµС‡Р°С‚СЊ СЃРїРёСЃРєР° РІСЃРµС… СЂРµР№СЃРѕРІ 
 
-	// Вывод списка заявок по списку id
+	// Р’С‹РІРѕРґ СЃРїРёСЃРєР° Р·Р°СЏРІРѕРє РїРѕ СЃРїРёСЃРєСѓ id
 	static void printBy(const std::vector<int>& ids, const std::list<TicketRequest>& tickets);
 
 private:

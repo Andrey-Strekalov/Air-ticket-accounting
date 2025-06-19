@@ -1,28 +1,28 @@
-/////////////////////////////////////////////
+п»ї/////////////////////////////////////////////
 ////////////      FlightInfo.h    ///////////
 /////////////////////////////////////////////
 
 #pragma once
 #include <string>
 
-// абстрактный класс с общими полями для классов Board и TicketRequest
+// Р°Р±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ СЃ РѕР±С‰РёРјРё РїРѕР»СЏРјРё РґР»СЏ РєР»Р°СЃСЃРѕРІ Board Рё TicketRequest
 
 class FlightInfo {
 protected:
-	std::string flightNumber; // номер рейса
-	std::string departureDate; // дата вылета
-	std::string destination; // пункт назначения
+	std::string flightNumber; // РЅРѕРјРµСЂ СЂРµР№СЃР°
+	std::string departureDate; // РґР°С‚Р° РІС‹Р»РµС‚Р°
+	std::string destination; // РїСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ
 
 public:
 	
 	virtual void printInfo() const = 0;
 
-	// сеттеры класса
+	// СЃРµС‚С‚РµСЂС‹ РєР»Р°СЃСЃР°
 	void setFlightNumber(const std::string value);
 	void setDepartureDate(const std::string value);
 	void setDestination(std::string destination);
 
-	// геттеры класса
+	// РіРµС‚С‚РµСЂС‹ РєР»Р°СЃСЃР°
 	std::string getFlightNumber() const;
 	std::string getDepartureDate() const;
 	std::string getDestination()const;

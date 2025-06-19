@@ -1,4 +1,4 @@
-/////////////////////////////////////////////
+п»ї/////////////////////////////////////////////
 //////////      TicketRequest.cpp    ////////
 /////////////////////////////////////////////
 
@@ -19,18 +19,18 @@
 TicketRequest::TicketRequest() { id = 0; }
 TicketRequest::~TicketRequest() {}
 
-// реализаия сеттеров
+// СЂРµР°Р»РёР·Р°РёСЏ СЃРµС‚С‚РµСЂРѕРІ
 void TicketRequest::setId(int value) { id = value; }
 void TicketRequest::setStatus(std::string value) { status = value; }
 void TicketRequest::setPassengerName(std::string name) { passengerName = name; }
 
-// реализация геттеров 
+// СЂРµР°Р»РёР·Р°С†РёСЏ РіРµС‚С‚РµСЂРѕРІ 
 int TicketRequest::getId() const { return id; }
 std::string TicketRequest::getStatus()const { return  status; }
 std::string TicketRequest::getPassengerName() const { return passengerName; }
 
 
-// Реализация методов класса
+// Р РµР°Р»РёР·Р°С†РёСЏ РјРµС‚РѕРґРѕРІ РєР»Р°СЃСЃР°
 void TicketRequest::printInfo() const {
 
 	std::cout << std::left;
@@ -44,10 +44,10 @@ void TicketRequest::printInfo() const {
 }
 
 void TicketRequest::saveToFile(const std::list<TicketRequest>& tickets,
-	const std::string& filename) { // сохранение в файл
+	const std::string& filename) { // СЃРѕС…СЂР°РЅРµРЅРёРµ РІ С„Р°Р№Р»
 	std::ofstream file(filename);
 	if (!file.is_open()) {
-		throw std::runtime_error("Невозможно открыть файл для записи!");
+		throw std::runtime_error("РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ Р·Р°РїРёСЃРё!");
 	}
 
 	for (const auto& ticket : tickets) {
@@ -60,12 +60,12 @@ void TicketRequest::saveToFile(const std::list<TicketRequest>& tickets,
 	}
 }
 
-std::list<TicketRequest> TicketRequest::loadFromFile(const std::string& filename) { // загрузка даных из файла
+std::list<TicketRequest> TicketRequest::loadFromFile(const std::string& filename) { // Р·Р°РіСЂСѓР·РєР° РґР°РЅС‹С… РёР· С„Р°Р№Р»Р°
 	std::list<TicketRequest> tickets;
 	std::ifstream file(filename);
 
 	if (!file.is_open()) {
-		throw std::runtime_error("Невозможно открыть файл для чтения!");
+		throw std::runtime_error("РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ С‡С‚РµРЅРёСЏ!");
 	}
 
 	std::string line;
@@ -75,7 +75,7 @@ std::list<TicketRequest> TicketRequest::loadFromFile(const std::string& filename
 		std::istringstream iss(line);
 
 
-		// Парсим поля
+		// РџР°СЂСЃРёРј РїРѕР»СЏ
 		std::getline(iss, field, '|');
 		ticket.setId(std::stoi(field));
 
@@ -100,24 +100,24 @@ std::list<TicketRequest> TicketRequest::loadFromFile(const std::string& filename
 	return tickets;
 }
 
-void TicketRequest::workInRequest(std::list<TicketRequest>& tickets) { // работа с заявкой
+void TicketRequest::workInRequest(std::list<TicketRequest>& tickets) { // СЂР°Р±РѕС‚Р° СЃ Р·Р°СЏРІРєРѕР№
 	int id;
-	std::cout << "Введите id заявки: ";
+	std::cout << "Р’РІРµРґРёС‚Рµ id Р·Р°СЏРІРєРё: ";
 	std::cin >> id;
 
-	// Получаем итератор на элемент списка
+	// РџРѕР»СѓС‡Р°РµРј РёС‚РµСЂР°С‚РѕСЂ РЅР° СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
 	auto it = getTicketRequestById(tickets, id);
 
 	if (it == tickets.end()) {
-		std::cout << "Заявка не найдена!\n";
+		std::cout << "Р—Р°СЏРІРєР° РЅРµ РЅР°Р№РґРµРЅР°!\n";
 		return;
 	}
 
-	// Работаем с исходным объектом через итератор (ссылку)
+	// Р Р°Р±РѕС‚Р°РµРј СЃ РёСЃС…РѕРґРЅС‹Рј РѕР±СЉРµРєС‚РѕРј С‡РµСЂРµР· РёС‚РµСЂР°С‚РѕСЂ (СЃСЃС‹Р»РєСѓ)
 	it->printInfo();
 
 	std::string term;
-	std::cout << "\n" << "Это ваша заявка (y/n)? ";
+	std::cout << "\n" << "Р­С‚Рѕ РІР°С€Р° Р·Р°СЏРІРєР° (y/n)? ";
 	std::cin >> term;
 
 	if (term == "y") {
@@ -127,29 +127,29 @@ void TicketRequest::workInRequest(std::list<TicketRequest>& tickets) { // работа
 			switch (point) {
 			case 1: {
 				std::string new_status;
-				std::cout << "Введите новый статус: ";
+				std::cout << "Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Р№ СЃС‚Р°С‚СѓСЃ: ";
 				std::getline(std::cin >> std::ws, new_status);
 
-				// Модифицируем исходный объект через итератор
+				// РњРѕРґРёС„РёС†РёСЂСѓРµРј РёСЃС…РѕРґРЅС‹Р№ РѕР±СЉРµРєС‚ С‡РµСЂРµР· РёС‚РµСЂР°С‚РѕСЂ
 				it->setStatus(new_status);
-				std::cout << "Статус заявки #" << id << " изменен. Текущий статус: " << it->getStatus() << "\n";
+				std::cout << "РЎС‚Р°С‚СѓСЃ Р·Р°СЏРІРєРё #" << id << " РёР·РјРµРЅРµРЅ. РўРµРєСѓС‰РёР№ СЃС‚Р°С‚СѓСЃ: " << it->getStatus() << "\n";
 				break;
 			}
 			case 2: {
-				// Удаляем заявку из списка через итератор
+				// РЈРґР°Р»СЏРµРј Р·Р°СЏРІРєСѓ РёР· СЃРїРёСЃРєР° С‡РµСЂРµР· РёС‚РµСЂР°С‚РѕСЂ
 				std::string corr;
-				std::cout << "Вы уверены, что хотите удалить заявку (y/n)?";
+				std::cout << "Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ Р·Р°СЏРІРєСѓ (y/n)?";
 				std::cin >> corr;
 				if (corr == "y")
 				{
 					tickets.erase(it);
-					std::cout << "\n" << "*Заявка удалена!*\n";
+					std::cout << "\n" << "*Р—Р°СЏРІРєР° СѓРґР°Р»РµРЅР°!*\n";
 					sortList(tickets);
 					return;
 				}
 				else
 				{
-					std::cout << "*Удаление заявки отменено*";
+					std::cout << "*РЈРґР°Р»РµРЅРёРµ Р·Р°СЏРІРєРё РѕС‚РјРµРЅРµРЅРѕ*";
 					break;
 				}
 
@@ -157,14 +157,14 @@ void TicketRequest::workInRequest(std::list<TicketRequest>& tickets) { // работа
 			case 3:
 				break;
 			default:
-				std::cout << "Некорректный ввод!\n";
+				std::cout << "РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ!\n";
 				break;
 			}
 		} while (point != 3);
 	}
 }
 
-// Фунцкия возврата объекта по id
+// Р¤СѓРЅС†РєРёСЏ РІРѕР·РІСЂР°С‚Р° РѕР±СЉРµРєС‚Р° РїРѕ id
 std::list<TicketRequest>::iterator
 TicketRequest::getTicketRequestById(std::list<TicketRequest>& tickets, int id) {
 	for (auto it = tickets.begin(); it != tickets.end(); ++it) {
@@ -176,23 +176,23 @@ TicketRequest::getTicketRequestById(std::list<TicketRequest>& tickets, int id) {
 }
 
 
-// сортировка контейнера заявок по алфавиту
+// СЃРѕСЂС‚РёСЂРѕРІРєР° РєРѕРЅС‚РµР№РЅРµСЂР° Р·Р°СЏРІРѕРє РїРѕ Р°Р»С„Р°РІРёС‚Сѓ
 void TicketRequest::sortList(std::list<TicketRequest>& container) {
 	container.sort([](const TicketRequest& a, const TicketRequest& b) {
 		return a.getPassengerName() < b.getPassengerName();
 		});
 }
 
-// создание заявки
+// СЃРѕР·РґР°РЅРёРµ Р·Р°СЏРІРєРё
 void TicketRequest::createTicketRequest(TicketRequest* ticket, std::list<Board>& flights) {
 
-	// Выбор рейса из списка
-	std::cout << "\nДоступные рейсы:\n" << std::endl;
+	// Р’С‹Р±РѕСЂ СЂРµР№СЃР° РёР· СЃРїРёСЃРєР°
+	std::cout << "\nР”РѕСЃС‚СѓРїРЅС‹Рµ СЂРµР№СЃС‹:\n" << std::endl;
 	for (const auto& f : flights) {
 
 		std::cout << std::left << std::setw(12) << f.getFlightNumber()
 			<< f.getDepartureDate()
-			<< " (Свободно мест: " << f.getAvailableSeats() << ")\n";
+			<< " (РЎРІРѕР±РѕРґРЅРѕ РјРµСЃС‚: " << f.getAvailableSeats() << ")\n";
 	}
 	std::cout << std::endl;
 
@@ -200,9 +200,9 @@ void TicketRequest::createTicketRequest(TicketRequest* ticket, std::list<Board>&
 	{
 		std::string selectedFlight;
 		std::string selectedDate;
-		std::cout << "Введите номер рейса: ";
+		std::cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЂРµР№СЃР°: ";
 		std::cin >> selectedFlight;
-		std::cout << "Введите дату(дд.мм.гггг): ";
+		std::cout << "Р’РІРµРґРёС‚Рµ РґР°С‚Сѓ(РґРґ.РјРј.РіРіРіРі): ";
 		std::cin >> selectedDate;
 
 		try {
@@ -214,8 +214,8 @@ void TicketRequest::createTicketRequest(TicketRequest* ticket, std::list<Board>&
 			if (it == flights.end()) {
 				std::cout << std::endl;
 				throw std::runtime_error(
-					"\n Рейс с номером \"" + selectedFlight +
-					"\" на указанную дату не найден.");
+					"\n Р РµР№СЃ СЃ РЅРѕРјРµСЂРѕРј \"" + selectedFlight +
+					"\" РЅР° СѓРєР°Р·Р°РЅРЅСѓСЋ РґР°С‚Сѓ РЅРµ РЅР°Р№РґРµРЅ.");
 			}
 
 			selected_board = &(*it);
@@ -229,26 +229,26 @@ void TicketRequest::createTicketRequest(TicketRequest* ticket, std::list<Board>&
 			std::string name;
 			ticket->setId(id);
 
-			std::cout << "Введите ФИО пассажира: ";
+			std::cout << "Р’РІРµРґРёС‚Рµ Р¤РРћ РїР°СЃСЃР°Р¶РёСЂР°: ";
 			getline(std::cin >> std::ws, name);
 			ticket->setPassengerName(name);
 
-			ticket->setStatus("В обработке");
+			ticket->setStatus("Р’ РѕР±СЂР°Р±РѕС‚РєРµ");
 			selected_board->calculateAvailableSeats();
 
 			std::cout << std::endl;
 			std::cout << "================================================" << std::endl;
-			std::cout << "***  Заявка " << id << " успешно создана  ***" << std::endl;
+			std::cout << "***  Р—Р°СЏРІРєР° " << id << " СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅР°  ***" << std::endl;
 			std::cout << "================================================";
 		}
 		catch (const std::exception& e) {
-			std::cerr << "Ошибка: " << e.what() << "\n";
+			std::cerr << "РћС€РёР±РєР°: " << e.what() << "\n";
 			return;
 		}
 
 	}
 	else
 	{
-		std::cout << "*** Список рейсов пуст ***";
+		std::cout << "*** РЎРїРёСЃРѕРє СЂРµР№СЃРѕРІ РїСѓСЃС‚ ***";
 	}
 };

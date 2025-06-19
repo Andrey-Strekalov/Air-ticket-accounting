@@ -1,4 +1,4 @@
-/////////////////////////////////////////////
+п»ї/////////////////////////////////////////////
 ////////////      Print.cpp     /////////////
 /////////////////////////////////////////////
 
@@ -23,32 +23,32 @@ Print::~Print()
 }
 
 
-// функция вывода полного списка заявок
+// С„СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° РїРѕР»РЅРѕРіРѕ СЃРїРёСЃРєР° Р·Р°СЏРІРѕРє
 void Print::printAllTickets(const std::list<TicketRequest>& tickets) {
 	std::cout << std::left;
 	std::cout << std::setw(3) << "#"
 		<< std::setw(12) << "ID"
-		<< std::setw(35) << "Пассажир"
-		<< std::setw(12) << "Рейс"
-		<< std::setw(15) << "Дата вылета"
-		<< std::setw(20) << "Пункт назначения"
-		<< std::setw(15) << "Статус" << std::endl;
+		<< std::setw(35) << "РџР°СЃСЃР°Р¶РёСЂ"
+		<< std::setw(12) << "Р РµР№СЃ"
+		<< std::setw(15) << "Р”Р°С‚Р° РІС‹Р»РµС‚Р°"
+		<< std::setw(20) << "РџСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ"
+		<< std::setw(15) << "РЎС‚Р°С‚СѓСЃ" << std::endl;
 	std::cout << std::string(108, '-') << std::endl;
-	for (const auto& ticket : tickets) {  // Перебор по константной ссылке
+	for (const auto& ticket : tickets) {  // РџРµСЂРµР±РѕСЂ РїРѕ РєРѕРЅСЃС‚Р°РЅС‚РЅРѕР№ СЃСЃС‹Р»РєРµ
 		ticket.printInfo();
 	}
 }
 
-// печать списка всех рейсов 
+// РїРµС‡Р°С‚СЊ СЃРїРёСЃРєР° РІСЃРµС… СЂРµР№СЃРѕРІ 
 void Print::printAllFlights(const std::list<Board>& flights) {
 	std::cout << std::left;
 	std::cout << std::setw(3) << "#"
-		<< std::setw(20) << "Авиасудно"
-		<< std::setw(12) << "Рейс"
-		<< std::setw(15) << "Дата"
-		<< std::setw(20) << "Пункт назначения"
-		<< std::setw(12) << "Вместимость"
-		<< std::setw(15) << "Свободно" << std::endl;
+		<< std::setw(20) << "РђРІРёР°СЃСѓРґРЅРѕ"
+		<< std::setw(12) << "Р РµР№СЃ"
+		<< std::setw(15) << "Р”Р°С‚Р°"
+		<< std::setw(20) << "РџСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ"
+		<< std::setw(12) << "Р’РјРµСЃС‚РёРјРѕСЃС‚СЊ"
+		<< std::setw(15) << "РЎРІРѕР±РѕРґРЅРѕ" << std::endl;
 
 	std::cout << std::string(97, '-') << std::endl;
 
@@ -59,16 +59,16 @@ void Print::printAllFlights(const std::list<Board>& flights) {
 }
 
 
-// функция вывода краткого списка заявок
+// С„СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° РєСЂР°С‚РєРѕРіРѕ СЃРїРёСЃРєР° Р·Р°СЏРІРѕРє
 void Print::printAllTickets(const std::list<TicketRequest>& tickets, bool shortprint) {
 	if (tickets.size() == 0)
 	{
-		std::cout << "\n" << "*Список заявок пуст*";
+		std::cout << "\n" << "*РЎРїРёСЃРѕРє Р·Р°СЏРІРѕРє РїСѓСЃС‚*";
 		return;
 	}
 	if (shortprint)
 	{
-		for (const auto& ticket : tickets) {  // Перебор по константной ссылке
+		for (const auto& ticket : tickets) {  // РџРµСЂРµР±РѕСЂ РїРѕ РєРѕРЅСЃС‚Р°РЅС‚РЅРѕР№ СЃСЃС‹Р»РєРµ
 			std::cout << " " << std::endl << "# " << ticket.getId() << " " << ticket.getPassengerName();
 
 		}
@@ -76,10 +76,10 @@ void Print::printAllTickets(const std::list<TicketRequest>& tickets, bool shortp
 	}
 }
 
-// печать заявок по id
+// РїРµС‡Р°С‚СЊ Р·Р°СЏРІРѕРє РїРѕ id
 void Print::printBy(const std::vector<int>& ids, const std::list<TicketRequest>& tickets) {
 	if (ids.empty()) {
-		std::cout << "\n" << " *Совпадений не найдено*\n";
+		std::cout << "\n" << " *РЎРѕРІРїР°РґРµРЅРёР№ РЅРµ РЅР°Р№РґРµРЅРѕ*\n";
 		return;
 	}
 
@@ -91,29 +91,29 @@ void Print::printBy(const std::vector<int>& ids, const std::list<TicketRequest>&
 	}
 }
 
-// печать информации определенного рейса
+// РїРµС‡Р°С‚СЊ РёРЅС„РѕСЂРјР°С†РёРё РѕРїСЂРµРґРµР»РµРЅРЅРѕРіРѕ СЂРµР№СЃР°
 void Print::printFlightInfo(const std::list<Board>& flights) {
 
 	std::string selectedFlight;
 	std::string selectedDate;
-	std::cout << "Введите номер рейса для вывода информации: ";
+	std::cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЂРµР№СЃР° РґР»СЏ РІС‹РІРѕРґР° РёРЅС„РѕСЂРјР°С†РёРё: ";
 	std::cin >> selectedFlight;
-	std::cout << "Введите дату рейса: ";
+	std::cout << "Р’РІРµРґРёС‚Рµ РґР°С‚Сѓ СЂРµР№СЃР°: ";
 	std::cin >> selectedDate;
 
 	if (flights.empty()) {
-		std::cout << "\nСписок рейсов пуст!" << std::endl;
+		std::cout << "\nРЎРїРёСЃРѕРє СЂРµР№СЃРѕРІ РїСѓСЃС‚!" << std::endl;
 		return;
 	}
 
 	bool found = false;
 	std::cout << std::endl<< std::setw(3) << "#"
-		<< std::setw(20) << "Авиасудно"
-		<< std::setw(12) << "Рейс"
-		<< std::setw(15) << "Дата"
-		<< std::setw(20) << "Пункт назначения"
-		<< std::setw(12) << "Вместимость"
-		<< std::setw(15) << "Свободно" << std::endl;
+		<< std::setw(20) << "РђРІРёР°СЃСѓРґРЅРѕ"
+		<< std::setw(12) << "Р РµР№СЃ"
+		<< std::setw(15) << "Р”Р°С‚Р°"
+		<< std::setw(20) << "РџСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ"
+		<< std::setw(12) << "Р’РјРµСЃС‚РёРјРѕСЃС‚СЊ"
+		<< std::setw(15) << "РЎРІРѕР±РѕРґРЅРѕ" << std::endl;
 	std::cout << std::string(97, '-') << std::endl;
 	for (auto it = flights.begin(); it != flights.end(); ++it) {
 		if (it->getFlightNumber() == selectedFlight &&
@@ -127,7 +127,7 @@ void Print::printFlightInfo(const std::list<Board>& flights) {
 	}
 
 	if (!found) {
-		std::cout << "\n Рейс с номером \"" << selectedFlight << "\" на указанную дату не найден." << std::endl;
+		std::cout << "\n Р РµР№СЃ СЃ РЅРѕРјРµСЂРѕРј \"" << selectedFlight << "\" РЅР° СѓРєР°Р·Р°РЅРЅСѓСЋ РґР°С‚Сѓ РЅРµ РЅР°Р№РґРµРЅ." << std::endl;
 	}
 
 }

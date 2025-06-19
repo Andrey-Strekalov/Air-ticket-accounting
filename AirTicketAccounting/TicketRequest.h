@@ -1,4 +1,4 @@
-/////////////////////////////////////////////
+п»ї/////////////////////////////////////////////
 ////////////      TicketRequest.h    ////////
 /////////////////////////////////////////////
 
@@ -10,7 +10,7 @@
 
 class Board;
 
-// класс заявки на билет
+// РєР»Р°СЃСЃ Р·Р°СЏРІРєРё РЅР° Р±РёР»РµС‚
 
 class TicketRequest : public FlightInfo
 {
@@ -18,41 +18,41 @@ public:
 	TicketRequest();
 	~TicketRequest();
 
-	// Сеттеры класса
+	// РЎРµС‚С‚РµСЂС‹ РєР»Р°СЃСЃР°
 	void setId(int id);
 	void setStatus(std::string status);
 	void setPassengerName(std::string name);
 
 
-	// Геттеры класса
+	// Р“РµС‚С‚РµСЂС‹ РєР»Р°СЃСЃР°
 	int getId() const;
 	std::string getStatus()const;
 	std::string getPassengerName() const;
 
-	// Остальные методы
-	void printInfo() const override; // печать объекта
-	static std::list<TicketRequest> loadFromFile(const std::string& filename); // чтение объекта из файла
-	static void saveToFile(const std::list<TicketRequest>& tickets, const std::string& filename); // сохранение объекта в файл
+	// РћСЃС‚Р°Р»СЊРЅС‹Рµ РјРµС‚РѕРґС‹
+	void printInfo() const override; // РїРµС‡Р°С‚СЊ РѕР±СЉРµРєС‚Р°
+	static std::list<TicketRequest> loadFromFile(const std::string& filename); // С‡С‚РµРЅРёРµ РѕР±СЉРµРєС‚Р° РёР· С„Р°Р№Р»Р°
+	static void saveToFile(const std::list<TicketRequest>& tickets, const std::string& filename); // СЃРѕС…СЂР°РЅРµРЅРёРµ РѕР±СЉРµРєС‚Р° РІ С„Р°Р№Р»
 
-	// функция работы с заявкой, удаление и изменение статуса
+	// С„СѓРЅРєС†РёСЏ СЂР°Р±РѕС‚С‹ СЃ Р·Р°СЏРІРєРѕР№, СѓРґР°Р»РµРЅРёРµ Рё РёР·РјРµРЅРµРЅРёРµ СЃС‚Р°С‚СѓСЃР°
 	static void workInRequest(std::list<TicketRequest>& tickets);
 
-	// сортировка контейнера заявок по алфавиту
+	// СЃРѕСЂС‚РёСЂРѕРІРєР° РєРѕРЅС‚РµР№РЅРµСЂР° Р·Р°СЏРІРѕРє РїРѕ Р°Р»С„Р°РІРёС‚Сѓ
 	static void sortList(std::list<TicketRequest>& container);
 
-	// функция получения объекта заявки по id 
+	// С„СѓРЅРєС†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ РѕР±СЉРµРєС‚Р° Р·Р°СЏРІРєРё РїРѕ id 
 	static std::list<TicketRequest>::iterator
 		getTicketRequestById(std::list<TicketRequest>& tickets, int id);
 
-	// функция создания объекта заявки на билет
-	static void createTicketRequest(TicketRequest* ticket, std::list<Board>& flights); // создание заявки
+	// С„СѓРЅРєС†РёСЏ СЃРѕР·РґР°РЅРёСЏ РѕР±СЉРµРєС‚Р° Р·Р°СЏРІРєРё РЅР° Р±РёР»РµС‚
+	static void createTicketRequest(TicketRequest* ticket, std::list<Board>& flights); // СЃРѕР·РґР°РЅРёРµ Р·Р°СЏРІРєРё
 
 
 
 private:
-	int id; // индевидуальный номер заявки
-	std::string status; // статус заявки
-	std::string passengerName; // ФИО пассажира
+	int id; // РёРЅРґРµРІРёРґСѓР°Р»СЊРЅС‹Р№ РЅРѕРјРµСЂ Р·Р°СЏРІРєРё
+	std::string status; // СЃС‚Р°С‚СѓСЃ Р·Р°СЏРІРєРё
+	std::string passengerName; // Р¤РРћ РїР°СЃСЃР°Р¶РёСЂР°
 
 };
 
